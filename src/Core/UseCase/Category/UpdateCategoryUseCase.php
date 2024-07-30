@@ -31,6 +31,7 @@ class UpdateCategoryUseCase
             name: $categoryUpdated->name,
             description: $categoryUpdated->description,
             isActive: $categoryUpdated->isActive,
+            created_at: $categoryUpdated->createdAt(),
         );
     }
 }

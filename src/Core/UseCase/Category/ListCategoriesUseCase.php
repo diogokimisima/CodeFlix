@@ -42,7 +42,8 @@ class ListCategoriesUseCase
         //             'id' => $data->id,
         //             'name' => $data->name,
         //             'description' => $data->description,
-        //             'is_active' => $data->is_active,
+        //             'is_active' => (bool) $data->is_active,
+        //             'created_at': (string) $data->createdAt,
         //         ];
         //     }, $categories->items()),
         //     total: $categories->total(),
