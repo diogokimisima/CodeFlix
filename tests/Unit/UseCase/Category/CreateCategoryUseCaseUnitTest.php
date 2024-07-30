@@ -5,8 +5,10 @@ namespace Tests\Unit\UseCase\Category;
 use Core\Domain\Entity\Category;
 use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\UseCase\Category\CreateCategoryUseCase;
-use Core\UseCase\DTO\Category\CategoryCreateInputDto;
-use Core\UseCase\DTO\Category\CategoryCreateOutputDto;
+use Core\UseCase\DTO\Category\CreateCategory\{
+    CategoryCreateOutputDto,
+    CategoryCreateInputDto
+};
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
