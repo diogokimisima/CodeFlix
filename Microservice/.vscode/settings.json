@@ -1,5 +1,0 @@
-{
-    "intelephense.environment.phpVersion": "8.1.1",
-    "php.suggest.basic": false,
-    "editor.fontFamily": "JetBrains Mono"
-}
