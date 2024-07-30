@@ -1,0 +1,5 @@
+2024-07-30 18:28:13.883 [info] Log level: Info
+2024-07-30 18:28:13.883 [info] Validating found git in: "git"
+2024-07-30 18:28:13.883 [info] Using git "2.30.2" from "git"
+2024-07-30 18:28:13.883 [warning] [swsf] Unable to read folder '/workspaces/CodeFlix': Error: ENOENT: no such file or directory, scandir '/workspaces/CodeFlix'
+2024-07-30 18:28:13.883 [warning] Failed to get repository realpath for: "/workspaces/CodeFlix". Error: ENOENT: no such file or directory, realpath '/workspaces/CodeFlix'

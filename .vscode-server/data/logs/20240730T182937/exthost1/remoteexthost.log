@@ -1,0 +1,15 @@
+2024-07-30 18:29:40.960 [info] Extension host with pid 307 started
+2024-07-30 18:29:41.012 [info] Lock '/var/www/.vscode-server/data/User/workspaceStorage/4c5f21729f144f38f914ba91d86b2921/vscode.lock': Lock acquired.
+2024-07-30 18:29:41.261 [info] ExtensionService#_doActivateExtension vscode.configuration-editing, startup: false, activationEvent: 'onLanguage:jsonc'
+2024-07-30 18:29:41.273 [info] ExtensionService#_doActivateExtension vscode.json-language-features, startup: false, activationEvent: 'onLanguage:jsonc'
+2024-07-30 18:29:41.276 [info] ExtensionService#_doActivateExtension vscode.typescript-language-features, startup: false, activationEvent: 'onLanguage:jsonc'
+2024-07-30 18:29:41.277 [info] ExtensionService#_doActivateExtension vscode.emmet, startup: false, activationEvent: 'onLanguage'
+2024-07-30 18:29:43.049 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: true, activationEvent: '*', root cause: vscode.git
+2024-07-30 18:29:43.123 [info] ExtensionService#_doActivateExtension vscode.git, startup: true, activationEvent: '*'
+2024-07-30 18:29:43.123 [info] ExtensionService#_doActivateExtension vscode.github, startup: true, activationEvent: '*'
+2024-07-30 18:29:44.206 [info] Eager extensions activated
+2024-07-30 18:29:44.207 [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch, startup: false, activationEvent: 'onStartupFinished'
+2024-07-30 18:29:44.208 [info] ExtensionService#_doActivateExtension vscode.merge-conflict, startup: false, activationEvent: 'onStartupFinished'
+2024-07-30 18:33:04.074 [info] Extension host terminating: received terminate message from renderer
+2024-07-30 18:33:04.077 [info] Lock '/var/www/.vscode-server/data/User/workspaceStorage/4c5f21729f144f38f914ba91d86b2921/vscode.lock': Marking the lockfile as scheduled to be released in 6000 ms.
+2024-07-30 18:33:04.430 [info] Extension host with pid 307 exiting with code 0

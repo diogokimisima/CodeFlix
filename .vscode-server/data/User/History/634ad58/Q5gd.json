@@ -1,0 +1,58 @@
+{
+    "editor.wordWrap": "on",
+    "explorer.confirmDragAndDrop": false,
+    "workbench.iconTheme": "symbols",
+    "git.ignoreMissingGitWarning": true,
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.fontLigatures": true,
+    "symbols.hidesExplorerArrows": false,
+    
+
+    //VSCode editado
+    "editor.lineHeight": 1.7,
+    "editor.rulers": [80,120], 
+    "workbench.startupEditor": "newUntitledFile",
+    "editor.renderLineHighlight": "gutter",
+    "workbench.editor.labelFormat": "short",
+    "explorer.compactFolders": false,
+    "editor.semanticHighlighting.enabled": false, // pinta algumas variaveis do codigo com o tipo
+    "breadcrumbs.enabled": false,
+    // "workbench.activityBar.location": "hidden", //barra da esquerda
+    "editor.minimap.enabled": false,
+    // "editor.scrollbar.horizontal": "hidden",
+    // "editor.scrollbar.vertical": "hidden",
+    "workbench.statusBar.visible": false,
+    "terminal.integrated.env.windows": {},
+    "editor.suggest.mode": "accept",
+    "console-ninja.featureSet": "Community",
+    "workbench.colorTheme": "Min Dark",
+    "[css]": {
+        "editor.defaultFormatter": "stylelint.vscode-stylelint"
+    },
+    "explorer.confirmDelete": false,
+    "cSpell.language": "en,pt,pt_BR",
+    "[vue]": {
+        "editor.defaultFormatter": "Wscats.vue"
+    },
+    "[php]": {
+        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+    },
+    "security.allowedUNCHosts": [
+        "wsl.localhost"
+    ],
+    "intelephense.environment.phpVersion": "8.1.1",
+    "redhat.telemetry.enabled": true,
+    "terminal.integrated.env.linux": {},
+    "terminal.integrated.fontFamily": "monospace",
+    "vs-kubernetes": {
+        "vscode-kubernetes.helm-path-linux": "/home/diogokimisima/.local/state/vs-kubernetes/tools/helm/linux-amd64/helm",
+        "vscode-kubernetes.minikube-path-linux": "/home/diogokimisima/.local/state/vs-kubernetes/tools/minikube/linux-amd64/minikube"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[yaml]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "terminal.integrated.defaultProfile.linux": "bash"
+}
