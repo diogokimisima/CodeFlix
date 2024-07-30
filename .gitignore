@@ -15,3 +15,5 @@ yarn-error.log
 /.vscode
 .bash_history
 .docker/dbdata/
+
+.history/
