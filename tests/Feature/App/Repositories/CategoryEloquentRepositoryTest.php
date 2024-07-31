@@ -22,7 +22,7 @@ class CategoryEloquentRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->repository= new CategoryEloquentRepository(new Model());
+        $this->repository = new CategoryEloquentRepository(new Model());
     }
 
     public function testInsert()
@@ -52,19 +52,19 @@ class CategoryEloquentRepositoryTest extends TestCase
 
     public function testFindByIdNotFound()
     {
-       try {
-        $this->repository->findById('fakeValue');
+        try {
+            $this->repository->findById('fakeValue');
 
-        $this->assertTrue(false);
-       } catch (Throwable $th) {
-        $this->assertInstanceOf(NotFoundException::class, $th);
-       }
+            $this->assertTrue(false);
+        } catch (Throwable $th) {
+            $this->assertInstanceOf(NotFoundException::class, $th);
+        }
     }
 
     public function testFindAll()
     {
         $categories = Model::factory()->count(10)->create();
-        
+
         $response = $this->repository->findAll();
 
         $this->assertEquals(count($categories), count($response));
@@ -78,5 +78,40 @@ class CategoryEloquentRepositoryTest extends TestCase
 
         $this->assertInstanceOf(PaginationInterface::class, $response);
         $this->assertCount(15, $response->items());
+    }
+
+    public function testPaginateWithout()
+    {
+        $response = $this->repository->paginate();
+
+        $this->assertInstanceOf(PaginationInterface::class, $response);
+        $this->assertCount(0, $response->items());
+    }
+
+    public function testUpdateNotFound()
+    {
+        try {
+            $category = new EntityCategory(name: 'test');
+            $this->repository->update($category);
+
+            $this->assertTrue(false);
+        } catch (Throwable $th) {
+            $this->assertInstanceOf(NotFoundException::class, $th);
+        }
+    }
+
+    public function testUpdate()
+    {
+        $categoryDb = Category::factory()->create();
+
+        $category = new EntityCategory(
+            id: $categoryDb->id,
+            name: 'updated name'
+        );
+        $response = $this->repository->update($category);
+
+        $this->assertInstanceOf(EntityCategory::class, $response);
+        $this->assertNotEquals($response->name, $categoryDb->name);
+        $this->assertEquals('updated name', $response->name);
     }
 }
