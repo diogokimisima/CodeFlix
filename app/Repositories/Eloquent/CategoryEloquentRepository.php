@@ -82,9 +82,13 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
         return $this->toCategory($categoryDb);
     }
 
-    public function delete(string $id): bool
+    public function delete(string $categoryId): bool
     {
-        return true;
+        if (!$categoryDb = $this->model->find($categoryId)) {
+            throw new NotFoundException('Category Not Found');
+        }
+
+        return $categoryDb->delete();
     }
 
     private function toCategory(object $object): Category
