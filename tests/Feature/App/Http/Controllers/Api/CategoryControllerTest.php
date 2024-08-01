@@ -4,12 +4,14 @@ namespace Tests\Feature\App\Http\Controllers\Api;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use App\Repositories\Eloquent\CategoryEloquentRepository;
 use Core\UseCase\Category\{
     CreateCategoryUseCase,
     ListCategoriesUseCase,
-    ListCategoryUseCase
+    ListCategoryUseCase,
+    UpdateCategoryUseCase
 };
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -57,6 +59,7 @@ class CategoryControllerTest extends TestCase
         ]));
 
         $response = $this->controller->store($request, $useCase);
+        dump($response);
 
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_CREATED, $response->status());
@@ -73,5 +76,31 @@ class CategoryControllerTest extends TestCase
 
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->status());
+        $this->assertDatabaseHas('categories', [
+            'id' => $category->id
+        ]);
+    }
+
+    public function test_update()
+    {
+        $category = Category::factory()->create();
+
+        $request = new UpdateCategoryRequest();
+        $request->headers->set('content-type', 'application/json');
+        $request->setJson(new ParameterBag([
+            'name' => 'Updated'
+        ]));
+
+        $response = $this->controller->update(
+            request: $request,
+            useCase: new UpdateCategoryUseCase($this->repository),
+            id: $category->id,
+        );
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(Response::HTTP_OK, $response->status());
+        $this->assertDatabaseHas('categories', [
+            'name' => 'Updated'
+        ]);
     }
 }
