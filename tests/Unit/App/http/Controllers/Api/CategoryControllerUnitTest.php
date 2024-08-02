@@ -25,6 +25,7 @@ class CategoryControllerUnitTest extends TestCase
             1,
             1,
             1,
+            1,
             1
 
         ]);

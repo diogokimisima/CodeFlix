@@ -60,7 +60,6 @@ class CategoryControllerTest extends TestCase
         ]));
 
         $response = $this->controller->store($request, $useCase);
-        dump($response);
 
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_CREATED, $response->status());
@@ -113,7 +112,6 @@ class CategoryControllerTest extends TestCase
             id: $category->id
         );
 
-        dump($response->status());
 
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->status());
 
