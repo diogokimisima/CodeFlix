@@ -50,28 +50,28 @@ class CategoryApiTest extends TestCase
         $this->assertEquals(30, $response['meta']['total']);
     }
 
-    public function test_list_category_not_found() 
+    public function test_list_category_not_found()
     {
         $response = $this->getJson("$this->endpoint/fake_value");
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
-    public function test_list_category() 
+    public function test_list_category()
     {
         $category = Category::factory()->create();
 
         $response = $this->getJson("$this->endpoint/{$category->id}");
-      
+
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
-             'data' => [
+            'data' => [
                 'id',
                 'name',
                 'description',
                 'is_active',
                 'created_at'
-             ]
+            ]
         ]);
         $this->assertEquals($category->id, $response['data']['id']);
     }
@@ -82,13 +82,53 @@ class CategoryApiTest extends TestCase
 
         $response = $this->postJson($this->endpoint, $data);
 
-        $response->dump();
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonStructure([
             'message',
             'errors' => [
                 'name'
             ]
+        ]);
+    }
+
+    public function test_store()
+    {
+        $data = [
+            'name' => "New Category"
+        ];
+
+        $response = $this->postJson($this->endpoint, $data);
+
+        $response->dump();
+
+        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'description',
+                'is_active',
+                'created_at'
+            ]
+        ]);
+
+        $response2 = $this->postJson($this->endpoint, [
+            'name' => 'New Cat',
+            'description' => 'New Desc',
+            'is_active' => false
+        ]);
+
+        $response2->assertStatus(Response::HTTP_CREATED);
+        $this->assertEquals('New Cat', $response2['data']['name']);
+        $this->assertEquals('New Desc', $response2['data']['description']);
+        $this->assertEquals(false, $response2['data']['is_active']);
+        $this->assertDatabaseHas('categories', [
+            'id' => $response2['data']['id'],
+            'name' => $response2['data']['name'],
+            'description' => $response2['data']['description'],
+            'is_active' => $response2['data']['is_active'],
+
+            
         ]);
     }
 }
