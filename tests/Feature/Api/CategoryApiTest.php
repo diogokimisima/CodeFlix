@@ -99,8 +99,6 @@ class CategoryApiTest extends TestCase
 
         $response = $this->postJson($this->endpoint, $data);
 
-        $response->dump();
-
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure([
             'data' => [
@@ -127,8 +125,58 @@ class CategoryApiTest extends TestCase
             'name' => $response2['data']['name'],
             'description' => $response2['data']['description'],
             'is_active' => $response2['data']['is_active'],
+        ]);
+    }
 
-            
+    public function test_not_found_update()
+    {
+        $data = [
+            'name' => 'New Name'
+        ];
+
+        $response = $this->putJson("$this->endpoint/fake_id", $data);
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    public function test_validation_update()
+    {
+        $category = Category::factory()->create();
+
+        $response = $this->putJson("$this->endpoint/{$category->id}", []);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonStructure([
+            'message',
+            'errors' => [
+                'name'
+            ]
+        ]);
+    }
+
+    public function test_update()
+    {
+        $category = Category::factory()->create();
+
+        $data = [
+            'name' => 'Name updated',
+
+        ];
+
+        $response = $this->putJson("$this->endpoint/{$category->id}", $data);
+
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'description',
+                'is_active',
+                'created_at'
+            ]
+        ]);
+        $this->assertDatabaseHas('categories', [
+            'name' => 'Name updated'
         ]);
     }
 }

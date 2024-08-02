@@ -71,14 +71,14 @@ class CategoryController extends Controller
 
     public function update(UpdateCategoryRequest $request, UpdateCategoryUseCase $useCase, $id)
     {
-        $useCase->execute(
+        $response = $useCase->execute(
             input: new CategoryUpdateInputDto(
                 id: $id,
                 name: $request->name,
             )
         );
 
-        return (new CategoryResource($useCase))->response();
+        return (new CategoryResource($response))->response();
     }
 
     public function destroy(DeleteCategoryUseCase $useCase, $id)
