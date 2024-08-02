@@ -17,10 +17,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // $this->app->singleton(
-        //     CategoryRepositoryInterface::class,
-        //     CategoryEloquentRepository::class
-        // );
+        $this->app->singleton(
+            CategoryRepositoryInterface::class,
+            CategoryEloquentRepository::class
+        );
     }
 
     /**

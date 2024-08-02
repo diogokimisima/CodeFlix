@@ -5,6 +5,7 @@ namespace Tests\Feature\Api;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class CategoryApiTest extends TestCase
@@ -49,8 +50,10 @@ class CategoryApiTest extends TestCase
         $this->assertEquals(30, $response['meta']['total']);
     }
 
-    public function list_category_not_found() 
+    public function test_list_category_not_found() 
     {
+        $response = $this->getJson("$this->endpoint/fake_value");
 
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }
