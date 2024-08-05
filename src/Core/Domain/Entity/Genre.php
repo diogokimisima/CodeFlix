@@ -11,11 +11,10 @@ class Genre
 {
     use MethodsMagicsTrait;
 
-    protected array $categoriesId = [];
-
     public function __construct(
         protected string $name,
         protected ?Uuid $id = null,
+        protected array $categoriesId = [],
         protected $isActive = true,
         protected ?DateTime $createdAt = null,
     ) {
@@ -47,10 +46,13 @@ class Genre
         array_push($this->categoriesId, $categoryId);
     }
 
+    public function removeCategory(string $categoryId) {
+        unset($this->categoriesId[array_search($categoryId, $this->categoriesId)]);
+    }
+
     protected function validate()
     {
         DomainValidation::strMaxLength($this->name);
         DomainValidation::strMinLength($this->name);
     }
-
 }
