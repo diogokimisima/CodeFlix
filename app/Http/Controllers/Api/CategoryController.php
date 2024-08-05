@@ -75,6 +75,7 @@ class CategoryController extends Controller
             input: new CategoryUpdateInputDto(
                 id: $id,
                 name: $request->name,
+                description: $request->description
             )
         );
 
