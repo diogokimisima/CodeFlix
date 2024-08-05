@@ -14,8 +14,8 @@ class Genre
     public function __construct(
         protected string $name,
         protected ?Uuid $id = null,
-        protected array $categoriesId = [],
         protected $isActive = true,
+        protected array $categoriesId = [],
         protected ?DateTime $createdAt = null,
     ) {
         $this->id = $this->id ?? Uuid::random();
