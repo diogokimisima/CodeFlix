@@ -20,11 +20,18 @@ class Genre
         $this->createdAt = $this->createdAt ?? new DateTime();
     }
 
-    public function activate() {
+    public function activate()
+    {
         $this->isActive = true;
     }
 
-    public function deactivate() {
+    public function deactivate()
+    {
         $this->isActive = false;
+    }
+
+    public function update(string $name) 
+    {
+        $this->name = $name;
     }
 }
