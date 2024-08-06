@@ -32,8 +32,11 @@ class CreateGenreUseCaseUnitTest extends TestCase
         $mockRepository->shouldReceive('insert')->andReturn($mockEntity);
 
         $mockTransaction = Mockery::mock(stdClass::class, TransactionInterface::class);
+        $mockTransaction->shouldReceive('commit');
+        $mockTransaction->shouldReceive('rollback');
 
         $mockCategoryRepository = Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);
+        $mockCategoryRepository->shouldReceive('getIdsListIds')->andReturn([$uuid]);
 
         $mockCreateInputDto = Mockery::mock(GenreCreateInputDto::class, [
             'name', [$uuid], true
