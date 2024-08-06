@@ -44,8 +44,8 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
     {
         return $this->model
             ->whereIn('id', $categoriesId)
-            ->get('id')
-            ->pluck('id');
+            ->pluck('id')
+            ->toArray();
     }
 
 
