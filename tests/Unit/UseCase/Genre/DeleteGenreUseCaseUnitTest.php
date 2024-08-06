@@ -19,16 +19,25 @@ class DeleteGenreUseCaseUnitTest extends TestCase
     {
         $uuid = (string) RamseyUuid::uuid4();
 
+        // arrange
         $mockRepository = Mockery::mock(stdClass::class, GenreRepositoryInterface::class);
-        $mockRepository->shouldReceive('delete')->andReturn(true);
+
+        // Expect
+        $mockRepository->shouldReceive('delete')
+            ->once()
+            ->with($uuid)
+            ->andReturn(true);
 
         $mockInputDto = Mockery::mock(GenreInputDto::class, [$uuid]);
 
         $useCase = new DeleteGenreUseCase($mockRepository);
+
+        // action
         $response = $useCase->execute($mockInputDto);
 
+        // assert
         $this->assertInstanceOf(DeleteGenreOutputDto::class, $response);
-        $this->assertTrue($response->success);        
+        $this->assertTrue($response->success);
     }
 
     public function test_delete_fail()
@@ -36,14 +45,17 @@ class DeleteGenreUseCaseUnitTest extends TestCase
         $uuid = (string) RamseyUuid::uuid4();
 
         $mockRepository = Mockery::mock(stdClass::class, GenreRepositoryInterface::class);
-        $mockRepository->shouldReceive('delete')->andReturn(false);
+        $mockRepository->shouldReceive('delete')
+            ->once()
+            ->with($uuid)
+            ->andReturn(false);
 
         $mockInputDto = Mockery::mock(GenreInputDto::class, [$uuid]);
 
         $useCase = new DeleteGenreUseCase($mockRepository);
         $response = $useCase->execute($mockInputDto);
 
-        $this->assertFalse($response->success);        
+        $this->assertFalse($response->success);
     }
 
     protected function tearDown(): void
@@ -52,5 +64,4 @@ class DeleteGenreUseCaseUnitTest extends TestCase
 
         parent::tearDown();
     }
-
 }
