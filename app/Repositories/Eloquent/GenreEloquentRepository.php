@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Genre as Model;
+use App\Repositories\Presenters\PaginationPresenter;
 use Core\Domain\Entity\Genre as Entity;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\GenreRepositoryInterface;
@@ -28,7 +29,7 @@ class GenreEloquentRepository implements GenreRepositoryInterface
             'created_at' => $genre->createdAt(),
         ]);
 
-        if (count($genre->categoriesId)  > 0 ) {
+        if (count($genre->categoriesId)  > 0) {
             $genreDb->categories()->sync($genre->categoriesId);
         }
 
@@ -37,32 +38,43 @@ class GenreEloquentRepository implements GenreRepositoryInterface
 
     public function findById(string $genreId): Entity
     {
-        if(!$genreDb = $this->model->find($genreId)){
+        if (!$genreDb = $this->model->find($genreId)) {
             throw new NotFoundException(`Genre {$genreId} not found`);
-        }   
+        }
 
         return $this->toGenre($genreDb);
     }
 
     public function findAll(string $filter = '', $order = 'DESC'): array
     {
-        
+        $result = $this->model
+            ->where(function ($query) use ($filter) {
+                if ($filter) {
+                    $query->where('name', 'LIKE', "%{$filter}%");
+                }
+            })
+            ->orderBy('name', $order)
+            ->get();
+
+        return $result->toArray();
     }
 
-    public function paginate(string $filter = '', $order = 'DESC', int $page = 1, int $totalPage = 15): PaginationInterface
-    {
-        
+    public function paginate(string $filter = '', $order = 'DESC', int $page = 1, int $totalPage = 15): PaginationInterface {
+        $result = $this->model
+        ->where(function ($query) use ($filter) {
+            if ($filter) {
+                $query->where('name', 'LIKE', "%{$filter}%");
+            }
+        })
+        ->orderBy('name', $order)
+        ->paginate($totalPage);
+
+    return new PaginationPresenter($result);
     }
 
-    public function update(Entity $genre): Entity
-    {
-        
-    }
+    public function update(Entity $genre): Entity {}
 
-    public function delete(string $genreId): bool
-    {
-        
-    }
+    public function delete(string $genreId): bool {}
 
     private function toGenre(Model $object): Entity
     {
