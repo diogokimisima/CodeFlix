@@ -10,6 +10,8 @@ use Core\Domain\Entity\Genre as EntityGenre;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\GenreRepositoryInterface;
 use Core\Domain\ValueObject\Uuid;
+use DateTime;
+use Ramsey\Uuid\Uuid as RamseyUuid;
 use Tests\TestCase;
 
 class GenreEloquentRepositoryTest extends TestCase
@@ -166,7 +168,45 @@ class GenreEloquentRepositoryTest extends TestCase
         $this->assertDatabaseHas('genres', [
             'name' => 'Name Updated'
         ]);
+    }
 
+    public function testUpdateNotFound()
+    {
+        $this->expectException(NotFoundException::class);
 
+        $genreId = (string) RamseyUuid::uuid4();
+
+        $entity = new EntityGenre(
+            id: new Uuid($genreId),
+            name: 'test',
+            isActive: true,
+            createdAt: new DateTime(date('Y-m-d H:i:s'))
+        );
+
+        $entity->update(
+            name: 'Name Updated'
+        );
+
+        $response = $this->repository->update($entity);
+    }
+
+    public function testDeleteNotFound()
+    {
+        $this->expectException(NotFoundException::class);
+
+        $this->repository->delete('fake_id');
+    }
+
+    public function testDelete()
+    {
+        $genre = Model::factory()->create();
+
+        $response = $this->repository->delete($genre->id);
+
+        $this->assertSoftDeleted('genres', [
+            'id' => $genre->id,
+        ]);
+
+        $this->assertTrue($response);
     }
 }
