@@ -29,4 +29,5 @@ class ListGenreUseCaseTest extends TestCase
         $this->assertEquals($genre->id, $responseUseCase->id);
         $this->assertEquals($genre->name, $responseUseCase->name);
     }
+
 }
