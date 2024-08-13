@@ -9,6 +9,7 @@ use App\Repositories\Eloquent\{
     CategoryEloquentRepository
 };
 use App\Repositories\Transaction\DBTransaction;
+use Core\Domain\Exception\NotFoundException;
 use Core\UseCase\DTO\Genre\Create\GenreCreateInputDto;
 use Core\UseCase\Genre\CreateGenreUseCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -28,14 +29,80 @@ class CreateGenreUseCaseTest extends TestCase
             $repositoryCategory
         );
 
-        $responseUseCase = $useCase->execute(
+        $categories = ModelCategory::factory()->count(10)->create();
+        $categoriesIds = $categories->pluck('id')->toArray();
+
+        $useCase->execute(
             new GenreCreateInputDto(
-                name: 'teste'
+                name: 'teste',
+                categoriesId: $categoriesIds
             )
         );
 
         $this->assertDatabaseHas('genres', [
             'name' => 'teste'
         ]);
+
+        $this->assertDatabaseCount('category_genre', 10);
+    }
+
+    public function testExceptionInsertGenreWithCategoriesIdsInvalid()
+    {
+        $this->expectException(NotFoundException::class);
+
+        $repository = new GenreEloquentRepository(new Model());
+        $repositoryCategory = new CategoryEloquentRepository(new ModelCategory());
+
+        $useCase = new CreateGenreUseCase(
+            $repository,
+            new DBTransaction(),
+            $repositoryCategory
+        );
+
+        $categories = ModelCategory::factory()->count(10)->create();
+        $categoriesIds = $categories->pluck('id')->toArray();
+        array_push($categoriesIds, 'fale_id');
+
+        $useCase->execute(
+            new GenreCreateInputDto(
+                name: 'teste',
+                categoriesId: $categoriesIds
+            )
+        );
+    }
+
+    public function testTransactionInsert()
+    {
+        $repository = new GenreEloquentRepository(new Model());
+        $repositoryCategory = new CategoryEloquentRepository(new ModelCategory());
+
+        $useCase = new CreateGenreUseCase(
+            $repository,
+            new DBTransaction(),
+            $repositoryCategory
+        );
+
+        $categories = ModelCategory::factory()->count(10)->create();
+        $categoriesIds = $categories->pluck('id')->toArray();
+
+        try {
+            $useCase->execute(
+                new GenreCreateInputDto(
+                    name: 'teste',
+                    categoriesId: $categoriesIds
+                )
+            );
+
+            $this->assertDatabaseHas('genres', [
+                'name' => 'teste'
+            ]);
+    
+            $this->assertDatabaseCount('category_genre', 10);
+
+        } catch (\Throwable $th) {
+            $this->assertDatabaseCount('genres', 0);
+            $this->assertDatabaseCount('category_genre', 10);
+        }
+
     }
 }
