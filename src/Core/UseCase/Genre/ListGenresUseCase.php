@@ -23,7 +23,7 @@ class ListGenresUseCase
             filter: $input->filter,
             order: $input->order,
             page: $input->page,
-            totalPage: $input->totalPage,
+            totalPage: $input->totalPage
         );
 
         return new ListGenresOutputDto(
@@ -34,7 +34,7 @@ class ListGenresUseCase
             first_page: $response->firstPage(),
             per_page: $response->perPage(),
             to: $response->to(),
-            from: $response->from(),
+            from: $response->from()
         );
     }
 }
