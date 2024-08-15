@@ -2,4 +2,4 @@
 	email = dkimisima@gmail.com
 	name = diogokimisima
 [credential]
-	helper = "!f() { /var/www/.vscode-server/bin/eaa41d57266683296de7d118f574d0c2652e1fc4/node /tmp/vscode-remote-containers-b0922d51-1a75-4eaf-bc68-6695d78178ba.js git-credential-helper $*; }; f"
+	helper = "!f() { /var/www/.vscode-server/bin/eaa41d57266683296de7d118f574d0c2652e1fc4/node /tmp/vscode-remote-containers-f970f077-10a0-4836-ab04-dee5eeb31808.js git-credential-helper $*; }; f"

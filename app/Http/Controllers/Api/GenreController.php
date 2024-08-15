@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGenre;
 use App\Http\Resources\GenreResource;
 use Core\UseCase\DTO\Genre\Create\GenreCreateInputDto;
+use Core\UseCase\DTO\Genre\GenreInputDto;
 use Core\UseCase\DTO\Genre\List\ListGenresInputDto;
 use Core\UseCase\Genre\CreateGenreUseCase;
 use Core\UseCase\Genre\ListGenresUseCase;
+use Core\UseCase\Genre\ListGenreUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -70,9 +72,15 @@ class GenreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ListGenreUseCase $useCase, $id)
     {
-        //
+        $response = $useCase->execute(
+            input: new GenreInputDto(
+                id: $id
+            )
+        );
+
+        return new GenreResource($response);
     }
 
     /**
