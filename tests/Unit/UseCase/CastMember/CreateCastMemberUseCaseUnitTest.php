@@ -14,6 +14,7 @@ use Core\UseCase\CastMember\{
 };
 use Mockery;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use stdClass;
 
 class CreateCastMemberUseCaseUnitTest extends TestCase
@@ -41,6 +42,10 @@ class CreateCastMemberUseCaseUnitTest extends TestCase
 
         // assert
         $this->assertInstanceOf(CastMemberCreateOutputDto::class, $response);
+        $this->assertNotEmpty($response->id);
+        $this->assertEquals('name', $response->name);
+        $this->assertEquals(1, $response->type);
+        $this->assertNotEmpty($response->createdAt);
 
         Mockery::close();
     }
