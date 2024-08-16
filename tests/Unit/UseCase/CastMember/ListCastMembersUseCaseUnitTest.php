@@ -3,6 +3,10 @@
 namespace Tests\Unit\UseCase\CastMember;
 
 use Core\Domain\Repository\CastMemberRepositoryInterface;
+use Core\UseCase\DTO\CastMember\List\{
+    ListCastMembersInputDto,
+    ListCastMembersOutputDto,
+};
 use Core\UseCase\CastMember\ListCastMembersUseCase;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -21,9 +25,14 @@ class ListCastMembersUseCaseUnitTest extends TestCase
             ->andReturn($this->mockPagination());
 
         $useCase = new ListCastMembersUseCase($mockRepository);
-        $useCase->execute();
 
-        $this->assertTrue(true);
+        $mockInputDto = Mockery::mock(ListCastMembersInputDto::class, [
+            'filter', 'DESC', 1, 15
+        ]);
+
+        $response = $useCase->execute($mockInputDto);
+
+        $this->assertInstanceOf(ListCastMembersOutputDto::class, $response);
 
         Mockery::close();
     }
