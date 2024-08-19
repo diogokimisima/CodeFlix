@@ -71,12 +71,27 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
 
     public function update(CastMember $castMember): CastMember 
     {
-        
+        if (!$dataDb = $this->model->find($castMember->id())){
+            throw new NotFoundException("Cast Member {$castMember->id()} Not Found");
+        }
+
+        $dataDb->update([
+            'name' => $castMember->name,
+            'type' => $castMember->type->value
+        ]);
+
+        $dataDb->refresh();
+
+        return $this->convertToEntity($dataDb);
     }
 
     public function delete(string $castMemberId): bool 
     {
-        
+        if (!$dataDb = $this->model->find($castMemberId)){
+            throw new NotFoundException("Cast Member {$castMemberId} Not Found");
+        }
+
+        return $dataDb->delete();
     }
 
 

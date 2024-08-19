@@ -8,6 +8,7 @@ use App\Repositories\Eloquent\CastMemberEloquentRepository;
 use Core\Domain\Enum\CastMemberType;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\CastMemberRepositoryInterface;
+use Core\Domain\ValueObject\Uuid as RamseyUuid;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -98,5 +99,44 @@ class CastMemberEloquentRepositoryTest extends TestCase
         $this->assertEquals(20, $response->total());
     }
 
+    public function testUpdateNotFound()
+    {
+        $castMember = Model::factory()->create();
 
+        $entity = new Entity(
+            id: new RamseyUuid($castMember->id),
+            name: 'name updated',
+            type: CastMemberType::DIRECTOR
+        );
+
+        $response = $this->repository->update($entity);
+
+        
+        $this->assertDatabaseHas('cast_members', [
+            'id' => $response->id,
+            'name' => $response->name,
+            'type' => $response->type->value
+        ]);
+        $this->assertNotEquals($castMember->name, $response->name);
+        $this->assertEquals('name updated', $response->name);
+    }
+
+    public function testDeleteNotFound()
+    {
+        $this->expectException(NotFoundException::class);
+
+        $this->repository->delete('fake_id');
+    }
+
+    public function testDelete()
+    {
+        $castMember = Model::factory()->create();
+
+        $response = $this->repository->delete($castMember->id);
+
+        $this->assertSoftDeleted('cast_members', [
+            'id' => $castMember->id
+        ]);
+        $this->assertTrue($response);
+    }
 }
