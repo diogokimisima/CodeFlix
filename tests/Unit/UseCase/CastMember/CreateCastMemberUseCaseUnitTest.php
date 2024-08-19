@@ -24,7 +24,7 @@ class CreateCastMemberUseCaseUnitTest extends TestCase
         // arrange
         $mockEntity = Mockery::mock(EntityCastMember::class, ['name', CastMemberType::ACTOR]);
         $mockEntity->shouldReceive('id');
-        $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
+        $mockEntity->shouldReceive('created_at')->andReturn(date('Y-m-d H:i:s'));
 
         $mockRepository = Mockery::mock(stdClass::class, CastMemberRepositoryInterface::class);
         $mockRepository->shouldReceive('insert')
@@ -45,7 +45,7 @@ class CreateCastMemberUseCaseUnitTest extends TestCase
         $this->assertNotEmpty($response->id);
         $this->assertEquals('name', $response->name);
         $this->assertEquals(1, $response->type);
-        $this->assertNotEmpty($response->createdAt);
+        $this->assertNotEmpty($response->created_at);
 
         Mockery::close();
     }
