@@ -28,6 +28,7 @@ class CastMemberUnitTest extends ModelTestCase
             'id',
             'name',
             'type',
+            'created_at',
         ];
     }
 
@@ -35,7 +36,7 @@ class CastMemberUnitTest extends ModelTestCase
     {
         return [
             'id' => 'string',
-            'deleted_at' => 'datetime'
+            'deleted_at' => 'datetime',
         ];
     }
 }
