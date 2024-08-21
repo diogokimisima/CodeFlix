@@ -1,3 +1,4 @@
 \App\Models\Genre::factory()->count(100)->crate();
 \App\Models\Genre::factory()->count(100)->create();
 \App\Models\Category::factory()->count(10)->create();
+\App\Models\CastMember::factory()->count(100)->create();
