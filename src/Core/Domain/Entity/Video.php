@@ -4,7 +4,10 @@ namespace Core\Domain\Entity;
 
 use Core\Domain\Entity\Traits\MethodsMagicsTrait;
 use Core\Domain\Enum\Rating;
+use Core\Domain\ValueObject\Image;
+use Core\Domain\ValueObject\Media;
 use Core\Domain\ValueObject\Uuid;
+use DateTime;
 
 class Video {
     use MethodsMagicsTrait;
@@ -22,10 +25,17 @@ class Video {
         protected Rating $rating,
         protected ?Uuid $id = null,
         protected bool $published = false,
+        protected ?DateTime $createdAt = null,
+        protected ?Image $thumbFile = null,
+        protected ?Image $thumbHalf = null,
+        protected ?Image $bannerFile = null,
+        protected ?Media $trailerFile = null,
+        protected ?Media $videoFile = null,
     )
     {
         
         $this->id = $this->id ?? Uuid::random();
+        $this->createdAt = $this->createdAt ?? new DateTime();
     }
 
     public function addCategoryId(string $categoryId)
@@ -57,4 +67,30 @@ class Video {
     {
         unset($this->castMembersId[array_search($castMemberId, $this->castMembersId)]);
     }
+
+    public function thumbFile(): ?Image
+    {
+        return $this->thumbFile;
+    }
+
+    public function thumbHalf(): ?Image
+    {
+        return $this->thumbHalf;
+    }
+    
+    public function bannerFile(): ?Image
+    {
+        return $this->bannerFile;
+    }
+
+    public function trailerFile(): ?Media
+    {
+        return $this->trailerFile;
+    }
+
+    public function videoFile(): ?Media
+    {
+        return $this->videoFile;
+    }
+
 }
