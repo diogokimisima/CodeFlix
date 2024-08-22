@@ -6,6 +6,7 @@ use Core\Domain\Entity\Traits\MethodsMagicsTrait;
 use Core\Domain\Entity\Video;
 use Core\Domain\Enum\MediaStatus;
 use Core\Domain\Enum\Rating;
+use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\ValueObject\{
     Image,
     Media
@@ -318,5 +319,19 @@ class VideoUnitTest extends TestCase
         $this->assertNotNull($entity->videoFile());
         $this->assertInstanceOf(Media::class, $entity->videoFile());
         $this->assertEquals('path/video.mp4', $entity->videoFile()->filePath);
+    }
+
+    public function testValidation()
+    {
+        $this->expectException(EntityValidationException::class);
+        
+        new Video(
+            title: 'ts',
+            description: 'de',
+            yearLaunched: 2029,
+            duration: 12,
+            opened: true,
+            rating: Rating::RATE12,
+        );
     }
 }
