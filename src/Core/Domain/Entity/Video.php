@@ -5,17 +5,17 @@ namespace Core\Domain\Entity;
 use Core\Domain\Entity\Traits\MethodsMagicsTrait;
 use Core\Domain\Enum\Rating;
 use Core\Domain\Exception\EntityValidationException;
+use Core\Domain\Factory\VideoValidatorFactory;
 use Core\Domain\Notification\Notification;
+use Core\Domain\Notification\NotificationException;
 use Core\Domain\Validation\DomainValidation;
 use Core\Domain\ValueObject\Image;
 use Core\Domain\ValueObject\Media;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 
-class Video
+class Video extends Entity
 {
-    use MethodsMagicsTrait;
-
     protected array $categoriesId = [];
     protected array $genresId = [];
     protected array $castMembersId = [];
@@ -36,6 +36,8 @@ class Video
         protected ?Media $trailerFile = null,
         protected ?Media $videoFile = null,
     ) {
+        parent::__construct();
+
         $this->id = $this->id ?? Uuid::random();
 
         $this->createdAt = $this->createdAt ?? new DateTime();
@@ -100,32 +102,11 @@ class Video
 
     protected function validation()
     {
-        $notification = new Notification();
+        VideoValidatorFactory::create()->validate($this);
 
-        if (empty($this->title)) {
-            $notification->addError([
-                'context' => 'video',
-                'message' => 'Should not be empty or null',
-            ]);
-        }
-
-        if (strlen($this->title) < 3) {
-            $notification->addError([
-                'context' => 'video',
-                'message' => 'invalid qtd',
-            ]);
-        }
-
-        if (strlen($this->description) < 3) {
-            $notification->addError([
-                'context' => 'video',
-                'message' => 'invalid qtd',
-            ]);
-        }
-
-        if ($notification->hasErrors())
-            throw new EntityValidationException(
-                $notification->messages('video')
+        if ($this->notification->hasErrors())
+            throw new NotificationException(
+                $this->notification->messages('video')
             );
     }
 }
