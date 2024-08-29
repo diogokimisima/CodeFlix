@@ -45,6 +45,14 @@ class GenreEloquentRepository implements GenreRepositoryInterface
         return $this->toGenre($genreDb);
     }
 
+    public function getIdsListIds(array $genresIds = []): array
+    {
+        return $this->model
+            ->whereIn('id', $genresIds)
+            ->pluck('id')
+            ->toArray();
+    }
+
     public function findAll(string $filter = '', $order = 'DESC'): array
     {
         $result = $this->model
