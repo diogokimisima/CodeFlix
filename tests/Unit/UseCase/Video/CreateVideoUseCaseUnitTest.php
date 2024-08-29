@@ -24,9 +24,11 @@ use stdClass;
 
 class CreateVideoUseCaseUnitTest extends TestCase
 {
-    public function test_constructor()
+    protected $useCase;
+
+    protected function setUp(): void
     {
-        new UseCase(
+        $this->useCase =  new UseCase(
             repository: $this->createMockRepository(),
             transaction: $this->createMockTransaction(),
             storage: $this->createMockFileStorage(),
@@ -37,23 +39,12 @@ class CreateVideoUseCaseUnitTest extends TestCase
             repositoryCastMember: $this->createMockRepositoryCastMember(),
         );
 
-        $this->assertTrue(true);
+        parent::setUp();
     }
 
     public function test_exec_input_output()
     {
-        $useCase = new UseCase(
-            repository: $this->createMockRepository(),
-            transaction: $this->createMockTransaction(),
-            storage: $this->createMockFileStorage(),
-            eventManager: $this->createMockEventManager(),
-
-            repositoryCategory: $this->createMockRepositoryCategory(),
-            repositoryGenre: $this->createMockRepositoryGenre(),
-            repositoryCastMember: $this->createMockRepositoryCastMember(),
-        );
-
-        $response = $useCase->exec(
+        $response = $this->useCase->exec(
             input: $this->createMockInputDTO(),
         );
 
@@ -78,7 +69,7 @@ class CreateVideoUseCaseUnitTest extends TestCase
         return $mockRepository;
     }
 
-    private function createMockRepositoryGenre(array $genresResponse= [])
+    private function createMockRepositoryGenre(array $genresResponse = [])
     {
         $mockRepository = Mockery::mock(stdClass::class, GenreRepositoryInterface::class);
 
@@ -87,7 +78,7 @@ class CreateVideoUseCaseUnitTest extends TestCase
         return $mockRepository;
     }
 
-    private function createMockRepositoryCastMember(array $castMembersResponse= [])
+    private function createMockRepositoryCastMember(array $castMembersResponse = [])
     {
         $mockRepository = Mockery::mock(stdClass::class, CastMemberRepositoryInterface::class);
 
@@ -137,7 +128,6 @@ class CreateVideoUseCaseUnitTest extends TestCase
             [],
             [],
         ]);
-
     }
 
     private function createMockEntity()

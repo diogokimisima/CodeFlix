@@ -7,9 +7,8 @@ use Core\Domain\Validation\DomainValidation;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 
-class Category
+class Category extends Entity
 {
-    use MethodsMagicsTrait;
     public function __construct(
         protected Uuid|string $id = '',
         protected string $name = '',
